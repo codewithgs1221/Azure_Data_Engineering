@@ -1,0 +1,19 @@
+{
+	"name": "datalake012210_parquet_ActivityLog_parquet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "datalake012210",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": "parquet"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}
