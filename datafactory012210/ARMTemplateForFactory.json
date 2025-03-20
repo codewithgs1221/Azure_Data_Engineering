@@ -528,7 +528,21 @@
 						"     allowCopyCommand: true,",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError') ~> FactSalesStream"
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          salesOrderID = SalesOrderID,",
+						"          OrderDate,",
+						"          customerID = CustomerID,",
+						"          SubTotal,",
+						"          TaxAmt,",
+						"          Freight,",
+						"          TotalDue,",
+						"          OrderQty,",
+						"          ProductId = ProductID,",
+						"          UnitPrice,",
+						"          UnitPriceDiscount,",
+						"          LineTotal",
+						"     )) ~> FactSalesStream"
 					]
 				}
 			},
