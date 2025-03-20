@@ -22,10 +22,11 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "synapsePool_factSalestable",
+						"referenceName": "synapse1221_factsales",
 						"type": "DatasetReference"
 					},
-					"name": "factSalesStream"
+					"name": "factSales",
+					"description": "Input data in our appdb database"
 				}
 			],
 			"transformations": [
@@ -126,7 +127,7 @@
 				"     allowCopyCommand: true,",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> factSalesStream"
+				"     errorHandlingOption: 'stopOnFirstError') ~> factSales"
 			]
 		}
 	}
