@@ -2,7 +2,7 @@
 	"name": "synapsePool_factSalestable",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "synapsePool_FactSales",
+			"referenceName": "synapse1221_datapool_FactSales",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
@@ -76,10 +76,6 @@
 				"precision": 18,
 				"scale": 0
 			}
-		],
-		"typeProperties": {
-			"schema": "dbo",
-			"table": "factSales"
-		}
+		]
 	}
 }
