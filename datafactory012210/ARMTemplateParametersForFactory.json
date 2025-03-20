@@ -10,6 +10,12 @@
 		},
 		"datapool_ls_connectionString": {
 			"value": ""
+		},
+		"datalake01221_stage_ls_accountKey": {
+			"value": ""
+		},
+		"datalake01221_stage_ls_properties_typeProperties_url": {
+			"value": "https://datalake012210.dfs.core.windows.net/"
 		}
 	}
 }

@@ -14,6 +14,14 @@
 		"datapool_ls_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'datapool_ls'"
+		},
+		"datalake01221_stage_ls_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'datalake01221_stage_ls'"
+		},
+		"datalake01221_stage_ls_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://datalake012210.dfs.core.windows.net/"
 		}
 	},
 	"variables": {
@@ -98,6 +106,29 @@
 				"type": "AzureSqlDW",
 				"typeProperties": {
 					"connectionString": "[parameters('datapool_ls_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "integrationRuntime2",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/integrationRuntime2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/datalake01221_stage_ls')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('datalake01221_stage_ls_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('datalake01221_stage_ls_accountKey')]"
+					}
 				},
 				"connectVia": {
 					"referenceName": "integrationRuntime2",
@@ -538,6 +569,61 @@
 				"[concat(variables('factoryId'), '/datasets/appsrv_appDB_SalesOrderHeader')]",
 				"[concat(variables('factoryId'), '/datasets/appDbsrv_appDb_SalesOrderDetail')]",
 				"[concat(variables('factoryId'), '/datasets/synapse1221_factSales')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/03-Pipeline-Datawarehouse')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "01-DataFlow-DataWarehouse",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "01_DataFlow_Warehouse",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"SalesOrderHeaderStream": {},
+									"SalesOrderDetail": {},
+									"FactSalesStream": {}
+								}
+							},
+							"staging": {
+								"linkedService": {
+									"referenceName": "datalake01221_stage_ls",
+									"type": "LinkedServiceReference"
+								},
+								"folderPath": "staging"
+							},
+							"integrationRuntime": {
+								"referenceName": "integrationRuntime2",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/integrationRuntime2')]",
+				"[concat(variables('factoryId'), '/dataflows/01_DataFlow_Warehouse')]",
+				"[concat(variables('factoryId'), '/linkedServices/datalake01221_stage_ls')]"
 			]
 		}
 	]
