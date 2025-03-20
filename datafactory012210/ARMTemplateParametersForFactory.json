@@ -5,7 +5,10 @@
 		"factoryName": {
 			"value": "datafactory012210"
 		},
-		"dataLake1221_stg_connectionString": {
+		"appdb_connectionString": {
+			"value": ""
+		},
+		"datapool_ls_connectionString": {
 			"value": ""
 		}
 	}

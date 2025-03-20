@@ -7,9 +7,13 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "datafactory012210"
 		},
-		"dataLake1221_stg_connectionString": {
+		"appdb_connectionString": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'dataLake1221_stg'"
+			"metadata": "Secure string for 'connectionString' of 'appdb'"
+		},
+		"datapool_ls_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'datapool_ls'"
 		},
 		"containerUri": {
 			"type": "string",
@@ -38,8 +42,11 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"dataLake1221_stg_connectionString": {
-						"value": "[parameters('dataLake1221_stg_connectionString')]"
+					"appdb_connectionString": {
+						"value": "[parameters('appdb_connectionString')]"
+					},
+					"datapool_ls_connectionString": {
+						"value": "[parameters('datapool_ls_connectionString')]"
 					}
 				}
 			},
