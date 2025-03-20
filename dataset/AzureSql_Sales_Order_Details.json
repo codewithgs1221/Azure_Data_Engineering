@@ -59,7 +59,7 @@
 		],
 		"typeProperties": {
 			"schema": "SalesLT",
-			"table": "SalesOrderDetail"
+			"table": "SalesOrderHeader"
 		}
 	}
 }
