@@ -2,7 +2,7 @@
 	"name": "AzureSql_Sales_Order_Details",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "AzureSqlDatabase1",
+			"referenceName": "AzureSQL1221_appDB",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
@@ -56,10 +56,6 @@
 				"precision": 23,
 				"scale": 3
 			}
-		],
-		"typeProperties": {
-			"schema": "SalesLT",
-			"table": "SalesOrderDetail"
-		}
+		]
 	}
 }
