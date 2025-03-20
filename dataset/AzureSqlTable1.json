@@ -2,7 +2,7 @@
 	"name": "AzureSqlTable1",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "AzureSqlDatabase1",
+			"referenceName": "AzureSQL1221_appDB",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
@@ -118,10 +118,6 @@
 				"precision": 23,
 				"scale": 3
 			}
-		],
-		"typeProperties": {
-			"schema": "SalesLT",
-			"table": "SalesOrderHeader"
-		}
+		]
 	}
 }
