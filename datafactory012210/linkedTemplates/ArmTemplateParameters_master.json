@@ -8,8 +8,20 @@
 		"AzureSqlDatabase1_password": {
 			"value": ""
 		},
+		"Connect_datalake012210_accountKey": {
+			"value": ""
+		},
 		"datalake012210_accountKey": {
 			"value": ""
+		},
+		"datalake012210_ls_accountKey": {
+			"value": ""
+		},
+		"synapsePool_FactSales_password": {
+			"value": ""
+		},
+		"synapsepool-ws-WorkspaceDefaultSqlServer_connectionString": {
+			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=tcp:synapsepool-ws.sql.azuresynapse.net,1433;Initial Catalog=@{linkedService().DBName}"
 		},
 		"AzureSqlDatabase1_properties_typeProperties_server": {
 			"value": "azuresqlws.database.windows.net"
@@ -20,8 +32,26 @@
 		"AzureSqlDatabase1_properties_typeProperties_userName": {
 			"value": "sqladminuser"
 		},
+		"Connect_datalake012210_properties_typeProperties_url": {
+			"value": "https://datalake012210.dfs.core.windows.net/"
+		},
 		"datalake012210_properties_typeProperties_url": {
 			"value": "https://datalake012210.dfs.core.windows.net/"
+		},
+		"datalake012210_ls_properties_typeProperties_url": {
+			"value": "https://datalake012210.dfs.core.windows.net/"
+		},
+		"synapsePool_FactSales_properties_typeProperties_server": {
+			"value": "synapsepool-ws.sql.azuresynapse.net"
+		},
+		"synapsePool_FactSales_properties_typeProperties_database": {
+			"value": "datapool"
+		},
+		"synapsePool_FactSales_properties_typeProperties_userName": {
+			"value": "sqladminuser"
+		},
+		"synapsepool-ws-WorkspaceDefaultStorage_properties_typeProperties_url": {
+			"value": "https://synapsedatapool.dfs.core.windows.net"
 		},
 		"containerUri": {
 			"value": ""

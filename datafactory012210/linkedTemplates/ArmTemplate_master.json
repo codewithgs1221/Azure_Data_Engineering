@@ -11,9 +11,26 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'AzureSqlDatabase1'"
 		},
+		"Connect_datalake012210_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'Connect_datalake012210'"
+		},
 		"datalake012210_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'datalake012210'"
+		},
+		"datalake012210_ls_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'datalake012210_ls'"
+		},
+		"synapsePool_FactSales_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'synapsePool_FactSales'"
+		},
+		"synapsepool-ws-WorkspaceDefaultSqlServer_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'synapsepool-ws-WorkspaceDefaultSqlServer'",
+			"defaultValue": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=tcp:synapsepool-ws.sql.azuresynapse.net,1433;Initial Catalog=@{linkedService().DBName}"
 		},
 		"AzureSqlDatabase1_properties_typeProperties_server": {
 			"type": "string",
@@ -27,9 +44,33 @@
 			"type": "string",
 			"defaultValue": "sqladminuser"
 		},
+		"Connect_datalake012210_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://datalake012210.dfs.core.windows.net/"
+		},
 		"datalake012210_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://datalake012210.dfs.core.windows.net/"
+		},
+		"datalake012210_ls_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://datalake012210.dfs.core.windows.net/"
+		},
+		"synapsePool_FactSales_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "synapsepool-ws.sql.azuresynapse.net"
+		},
+		"synapsePool_FactSales_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "datapool"
+		},
+		"synapsePool_FactSales_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "sqladminuser"
+		},
+		"synapsepool-ws-WorkspaceDefaultStorage_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://synapsedatapool.dfs.core.windows.net"
 		},
 		"containerUri": {
 			"type": "string",
@@ -64,6 +105,18 @@
 					"datalake012210_accountKey": {
 						"value": "[parameters('datalake012210_accountKey')]"
 					},
+					"Connect_datalake012210_accountKey": {
+						"value": "[parameters('Connect_datalake012210_accountKey')]"
+					},
+					"datalake012210_ls_accountKey": {
+						"value": "[parameters('datalake012210_ls_accountKey')]"
+					},
+					"synapsePool_FactSales_password": {
+						"value": "[parameters('synapsePool_FactSales_password')]"
+					},
+					"synapsepool-ws-WorkspaceDefaultSqlServer_connectionString": {
+						"value": "[parameters('synapsepool-ws-WorkspaceDefaultSqlServer_connectionString')]"
+					},
 					"AzureSqlDatabase1_properties_typeProperties_server": {
 						"value": "[parameters('AzureSqlDatabase1_properties_typeProperties_server')]"
 					},
@@ -75,10 +128,48 @@
 					},
 					"datalake012210_properties_typeProperties_url": {
 						"value": "[parameters('datalake012210_properties_typeProperties_url')]"
+					},
+					"Connect_datalake012210_properties_typeProperties_url": {
+						"value": "[parameters('Connect_datalake012210_properties_typeProperties_url')]"
+					},
+					"datalake012210_ls_properties_typeProperties_url": {
+						"value": "[parameters('datalake012210_ls_properties_typeProperties_url')]"
+					},
+					"synapsePool_FactSales_properties_typeProperties_server": {
+						"value": "[parameters('synapsePool_FactSales_properties_typeProperties_server')]"
+					},
+					"synapsePool_FactSales_properties_typeProperties_database": {
+						"value": "[parameters('synapsePool_FactSales_properties_typeProperties_database')]"
+					},
+					"synapsePool_FactSales_properties_typeProperties_userName": {
+						"value": "[parameters('synapsePool_FactSales_properties_typeProperties_userName')]"
+					},
+					"synapsepool-ws-WorkspaceDefaultStorage_properties_typeProperties_url": {
+						"value": "[parameters('synapsepool-ws-WorkspaceDefaultStorage_properties_typeProperties_url')]"
 					}
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "datafactory012210_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'datafactory012210_ArmTemplate_0')]"
+			]
 		}
 	]
 }
