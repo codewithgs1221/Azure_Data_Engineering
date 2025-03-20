@@ -21,13 +21,13 @@
 					},
 					"staging": {
 						"linkedService": {
-							"referenceName": "datalake012210_ls",
+							"referenceName": "dataLake1221_stg",
 							"type": "LinkedServiceReference"
 						},
 						"folderPath": "staging"
 					},
 					"integrationRuntime": {
-						"referenceName": "integrationRuntime1",
+						"referenceName": "integrationRuntime2",
 						"type": "IntegrationRuntimeReference"
 					},
 					"traceLevel": "Fine"
