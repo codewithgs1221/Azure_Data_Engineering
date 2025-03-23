@@ -713,6 +713,11 @@
 				"type": "AzureSqlDWTable",
 				"schema": [
 					{
+						"name": "ProductSK",
+						"type": "int",
+						"precision": 10
+					},
+					{
 						"name": "ProductId",
 						"type": "int",
 						"precision": 10
@@ -832,6 +837,9 @@
 						},
 						{
 							"name": "DeriveTotalDueStream"
+						},
+						{
+							"name": "surrogateKeyProductStream"
 						}
 					],
 					"scriptLines": [
@@ -975,6 +983,9 @@
 						"     skipDuplicateMapOutputs: true) ~> SelectDimensionProduct",
 						"SelectDimensionProduct filter(!isNull(Color)) ~> filterNullColorRows",
 						"select1 derive(TotalDue = add(add(SubTotal,TaxAmt),Freight)) ~> DeriveTotalDueStream",
+						"filterNullColorRows keyGenerate(output(ProductSK as long),",
+						"     startAt: 1L,",
+						"     stepValue: 1L) ~> surrogateKeyProductStream",
 						"DeriveTotalDueStream sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
@@ -1035,9 +1046,10 @@
 						"          CustomerID,",
 						"          CompanyName",
 						"     )) ~> DimensionCustomerStream",
-						"filterNullColorRows sink(allowSchemaDrift: true,",
+						"surrogateKeyProductStream sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
+						"          ProductSK as integer,",
 						"          ProductId as integer,",
 						"          ProductNumber as string,",
 						"          Color as string,",
@@ -1055,6 +1067,7 @@
 						"     skipDuplicateMapOutputs: true,",
 						"     errorHandlingOption: 'stopOnFirstError',",
 						"     mapColumn(",
+						"          ProductSK,",
 						"          ProductId = ProductID,",
 						"          ProductNumber,",
 						"          Color,",
