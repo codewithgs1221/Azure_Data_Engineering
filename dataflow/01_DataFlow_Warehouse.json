@@ -54,6 +54,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "DimensionCustomerStream"
+				},
+				{
+					"dataset": {
+						"referenceName": "synapse_datapool_dimensionProduct",
+						"type": "DatasetReference"
+					},
+					"name": "DimensionProductStream"
 				}
 			],
 			"transformations": [
@@ -65,6 +72,15 @@
 				},
 				{
 					"name": "SelectColumnsCustomer"
+				},
+				{
+					"name": "ProductStreamJoinProductCategory"
+				},
+				{
+					"name": "SelectDimensionProduct"
+				},
+				{
+					"name": "filterNullColorRows"
 				}
 			],
 			"scriptLines": [
@@ -193,6 +209,22 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> SelectColumnsCustomer",
+				"ProductStream, ProductCategoryStream join(ProductStream@ProductCategoryID == ProductCategoryStream@ProductCategoryID",
+				"     && Color == ERROR_FUNCTION(''),",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> ProductStreamJoinProductCategory",
+				"ProductStreamJoinProductCategory select(mapColumn(",
+				"          ProductID,",
+				"          ProductNumber,",
+				"          Color,",
+				"          ProductCategoryID = ProductStream@ProductCategoryID,",
+				"          ProductCategoryName = ProductCategoryStream@Name",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> SelectDimensionProduct",
+				"SelectDimensionProduct filter(!isNull(Color)) ~> filterNullColorRows",
 				"select1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
@@ -252,7 +284,33 @@
 				"     mapColumn(",
 				"          CustomerID,",
 				"          CompanyName",
-				"     )) ~> DimensionCustomerStream"
+				"     )) ~> DimensionCustomerStream",
+				"filterNullColorRows sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          ProductId as integer,",
+				"          ProductNumber as string,",
+				"          Color as string,",
+				"          ProductCategoryID as integer,",
+				"          ProductCategoryName as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     staged: true,",
+				"     allowCopyCommand: true,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          ProductId = ProductID,",
+				"          ProductNumber,",
+				"          Color,",
+				"          ProductCategoryID,",
+				"          ProductCategoryName",
+				"     )) ~> DimensionProductStream"
 			]
 		}
 	}
