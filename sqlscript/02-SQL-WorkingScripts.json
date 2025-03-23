@@ -2,7 +2,7 @@
 	"name": "02-SQL-WorkingScripts",
 	"properties": {
 		"content": {
-			"query": "\ndelete from factSales;\n\ndelete from dimCustomer;\n\nselect * from factSales;\n\nselect * from dimCustomer;",
+			"query": "\ndelete from factSales;\n\ndelete from dimCustomer;\n---------------------------------------------\nselect * from factSales;\n\nselect * from dimCustomer;\n\nselect * from dimProduct;\n---------------------------------------------\n\nselect count(*) from factSales;  --542\n\nselect count(*) from dimCustomer; -- 847\n\nselect count(*) from dimProduct; -- 245\n\n\n\n\n\n",
 			"metadata": {
 				"language": "sql"
 			},

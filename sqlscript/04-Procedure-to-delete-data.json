@@ -1,0 +1,17 @@
+{
+	"name": "04-Procedure-to-delete-data",
+	"properties": {
+		"content": {
+			"query": "create PROCEDURE ClearTables\nAS\ndelete from factSales;\ndelete from dimCustomer;\nDELETE from dimProduct;",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "dataPool",
+				"poolName": "dataPool"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

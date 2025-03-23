@@ -1,0 +1,17 @@
+{
+	"name": "03-dimProducttbl-Creation",
+	"properties": {
+		"content": {
+			"query": "drop table dimProduct;\n\nCreate table dimProduct\n(\n    ProductId   INT NOT NULL,\n    ProductNumber VARCHAR(100) NOT NULL,\n    Color VARCHAR(20) NOT NULL,\n    ProductCategoryID INT NOT NULL,\n    ProductCategoryName VARCHAR(200) NOT NULL\n)\nWITH\n(\n    DISTRIBUTION = REPLICATE\n);",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "dataPool",
+				"poolName": "dataPool"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
