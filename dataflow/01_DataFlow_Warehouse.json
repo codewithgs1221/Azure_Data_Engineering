@@ -81,6 +81,9 @@
 				},
 				{
 					"name": "filterNullColorRows"
+				},
+				{
+					"name": "DeriveTotalDueStream"
 				}
 			],
 			"scriptLines": [
@@ -194,7 +197,6 @@
 				"          SubTotal,",
 				"          TaxAmt,",
 				"          Freight,",
-				"          TotalDue,",
 				"          OrderQty,",
 				"          ProductID,",
 				"          UnitPrice,",
@@ -224,7 +226,8 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> SelectDimensionProduct",
 				"SelectDimensionProduct filter(!isNull(Color)) ~> filterNullColorRows",
-				"select1 sink(allowSchemaDrift: true,",
+				"select1 derive(TotalDue = add(add(SubTotal,TaxAmt),Freight)) ~> DeriveTotalDueStream",
+				"DeriveTotalDueStream sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          salesOrderID as integer,",
