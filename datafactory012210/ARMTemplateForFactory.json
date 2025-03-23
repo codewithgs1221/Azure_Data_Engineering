@@ -419,6 +419,13 @@
 								"type": "DatasetReference"
 							},
 							"name": "SalesOrderDetail"
+						},
+						{
+							"dataset": {
+								"referenceName": "appdbsrv_appdb_customer",
+								"type": "DatasetReference"
+							},
+							"name": "customerStream"
 						}
 					],
 					"sinks": [
@@ -428,6 +435,13 @@
 								"type": "DatasetReference"
 							},
 							"name": "FactSalesStream"
+						},
+						{
+							"dataset": {
+								"referenceName": "synapse_datapool_dimCustomer",
+								"type": "DatasetReference"
+							},
+							"name": "DimensionCustomerStream"
 						}
 					],
 					"transformations": [
@@ -436,6 +450,9 @@
 						},
 						{
 							"name": "select1"
+						},
+						{
+							"name": "SelectColumnsCustomer"
 						}
 					],
 					"scriptLines": [
@@ -482,6 +499,27 @@
 						"     validateSchema: false,",
 						"     isolationLevel: 'READ_UNCOMMITTED',",
 						"     format: 'table') ~> SalesOrderDetail",
+						"source(output(",
+						"          CustomerID as integer,",
+						"          NameStyle as boolean,",
+						"          Title as string,",
+						"          FirstName as string,",
+						"          MiddleName as string,",
+						"          LastName as string,",
+						"          Suffix as string,",
+						"          CompanyName as string,",
+						"          SalesPerson as string,",
+						"          EmailAddress as string,",
+						"          Phone as string,",
+						"          PasswordHash as string,",
+						"          PasswordSalt as string,",
+						"          rowguid as string,",
+						"          ModifiedDate as timestamp",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> customerStream",
 						"SalesOrderHeaderStream, SalesOrderDetail join(SalesOrderHeaderStream@SalesOrderID == SalesOrderDetail@SalesOrderID,",
 						"     joinType:'inner',",
 						"     matchType:'exact',",
@@ -503,6 +541,12 @@
 						"     ),",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> select1",
+						"customerStream select(mapColumn(",
+						"          CustomerID,",
+						"          CompanyName",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> SelectColumnsCustomer",
 						"select1 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
@@ -542,14 +586,36 @@
 						"          UnitPrice,",
 						"          UnitPriceDiscount,",
 						"          LineTotal",
-						"     )) ~> FactSalesStream"
+						"     )) ~> FactSalesStream",
+						"SelectColumnsCustomer sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          CustomerID as integer,",
+						"          CompanyName as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     staged: true,",
+						"     allowCopyCommand: true,",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          CustomerID,",
+						"          CompanyName",
+						"     )) ~> DimensionCustomerStream"
 					]
 				}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/appsrv_appDB_SalesOrderHeader')]",
 				"[concat(variables('factoryId'), '/datasets/appDbsrv_appDb_SalesOrderDetail')]",
-				"[concat(variables('factoryId'), '/datasets/synapse1221_factSales')]"
+				"[concat(variables('factoryId'), '/datasets/appdbsrv_appdb_customer')]",
+				"[concat(variables('factoryId'), '/datasets/synapse1221_factSales')]",
+				"[concat(variables('factoryId'), '/datasets/synapse_datapool_dimCustomer')]"
 			]
 		},
 		{
@@ -588,7 +654,9 @@
 								"datasetParameters": {
 									"SalesOrderHeaderStream": {},
 									"SalesOrderDetail": {},
-									"FactSalesStream": {}
+									"customerStream": {},
+									"FactSalesStream": {},
+									"DimensionCustomerStream": {}
 								}
 							},
 							"staging": {
@@ -638,6 +706,122 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/integrationRuntimes/integrationRuntime2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/appdbsrv_appdb_customer')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "appdb",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "CustomerID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "NameStyle",
+						"type": "bit"
+					},
+					{
+						"name": "Title",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FirstName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MiddleName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LastName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Suffix",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CompanyName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SalesPerson",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EmailAddress",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Phone",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PasswordHash",
+						"type": "varchar"
+					},
+					{
+						"name": "PasswordSalt",
+						"type": "varchar"
+					},
+					{
+						"name": "rowguid",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "SalesLT",
+					"table": "Customer"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/appdb')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/synapse_datapool_dimCustomer')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "datapool_ls",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlDWTable",
+				"schema": [
+					{
+						"name": "CustomerID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CompanyName",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "dimCustomer"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/datapool_ls')]"
 			]
 		}
 	]
