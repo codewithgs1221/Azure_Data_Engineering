@@ -8,10 +8,10 @@
 		"appdb_connectionString": {
 			"value": ""
 		},
-		"datapool_ls_connectionString": {
+		"datalake01221_stage_ls_accountKey": {
 			"value": ""
 		},
-		"datalake01221_stage_ls_accountKey": {
+		"datapool_ls_connectionString": {
 			"value": ""
 		},
 		"datalake01221_stage_ls_properties_typeProperties_url": {

@@ -11,13 +11,13 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'appdb'"
 		},
-		"datapool_ls_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'datapool_ls'"
-		},
 		"datalake01221_stage_ls_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'datalake01221_stage_ls'"
+		},
+		"datapool_ls_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'datapool_ls'"
 		},
 		"datalake01221_stage_ls_properties_typeProperties_url": {
 			"type": "string",
@@ -53,11 +53,11 @@
 					"appdb_connectionString": {
 						"value": "[parameters('appdb_connectionString')]"
 					},
-					"datapool_ls_connectionString": {
-						"value": "[parameters('datapool_ls_connectionString')]"
-					},
 					"datalake01221_stage_ls_accountKey": {
 						"value": "[parameters('datalake01221_stage_ls_accountKey')]"
+					},
+					"datapool_ls_connectionString": {
+						"value": "[parameters('datapool_ls_connectionString')]"
 					},
 					"datalake01221_stage_ls_properties_typeProperties_url": {
 						"value": "[parameters('datalake01221_stage_ls_properties_typeProperties_url')]"
