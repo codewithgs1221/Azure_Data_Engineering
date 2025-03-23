@@ -1,0 +1,17 @@
+{
+	"name": "01-dimCustomerTblCreation",
+	"properties": {
+		"content": {
+			"query": "\n\nCREATE TABLE dimCustomer\n(\n    CustomerID INT NOT NULL,\n    CompanyName VARCHAR(500) NOT NULL\n)\nWITH\n(\n    DISTRIBUTION = REPLICATE\n);\n\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "dataPool",
+				"poolName": "dataPool"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

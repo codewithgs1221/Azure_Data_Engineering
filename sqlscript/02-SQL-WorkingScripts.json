@@ -1,0 +1,17 @@
+{
+	"name": "02-SQL-WorkingScripts",
+	"properties": {
+		"content": {
+			"query": "\ndelete from factSales;\n\ndelete from dimCustomer;\n\nselect * from factSales;\n\nselect * from dimCustomer;",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "dataPool",
+				"poolName": "dataPool"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
