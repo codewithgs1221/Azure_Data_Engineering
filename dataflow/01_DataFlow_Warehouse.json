@@ -31,6 +31,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "ProductStream"
+				},
+				{
+					"dataset": {
+						"referenceName": "appDbSrv_appDB_ProductCategory",
+						"type": "DatasetReference"
+					},
+					"name": "ProductCategoryStream"
 				}
 			],
 			"sinks": [
@@ -148,6 +155,17 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> ProductStream",
+				"source(output(",
+				"          ProductCategoryID as integer,",
+				"          ParentProductCategoryID as integer,",
+				"          Name as string,",
+				"          rowguid as string,",
+				"          ModifiedDate as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> ProductCategoryStream",
 				"SalesOrderHeaderStream, SalesOrderDetail join(SalesOrderHeaderStream@SalesOrderID == SalesOrderDetail@SalesOrderID,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
