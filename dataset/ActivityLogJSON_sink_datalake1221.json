@@ -1,0 +1,19 @@
+{
+	"name": "ActivityLogJSON_sink_datalake1221",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "datalake01221_stage_ls",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "Json_data",
+				"fileSystem": "data"
+			}
+		},
+		"schema": {}
+	}
+}
